@@ -5,7 +5,9 @@
 ---
 
 [![NTNU FIGTHERZ](https://i.gyazo.com/a514142b0a4dfce57d06e2a9943e9441.gif)](https://www.youtube.com/watch?v=3NE40v7QaqM)
+
 _Click on the GIF to watch the full game with sound._
+_If the image is not loading; https://www.youtube.com/watch?v=3NE40v7QaqM_
 
 ---
 ### About
