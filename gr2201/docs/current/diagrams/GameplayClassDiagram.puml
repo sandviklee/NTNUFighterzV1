@@ -1,0 +1,376 @@
+@startuml GameplayClassDiagram
+
+class Action {
+    - name: String
+    - gameCharName: String
+    '- hitBox: Effectbox
+    '- temporary: Effectbox
+    '- sprites: AnimationSpritePlayer
+    -' projectile: Projectile
+    '- knockback: Vector
+    - actionPriority: int
+    - duration: int
+    - currentTime: int
+    - hitBoxStartTime: int
+    - damage: int
+    - holdAction: int
+    - holdFrameLength: int
+    - isSelfInterruptible: boolean
+    - isEnemyInterruptible: boolean
+    - isDone: boolean
+    - movement: boolean
+    - isProjectile: boolean
+    - createProjectile: boolean
+    
+    + Action(ActionProperties properties)
+    + nextActionFrame(): void
+    + trySelfInterrupt(Action otherSelfAction): boolean
+    + tryEnemyInterrupt(Action otherEnemyAction): boolean
+    + getName(): String
+    + getCurrentFrame(): int
+    + getHitBox(): Effectbox
+    + getKnockback(): Vector
+    + getDamage(): int
+    + getIsDone(): boolean
+    + startHitBox(): boolean 
+    + getProjectile(): Projectile
+    + isProjectile(): boolean
+    + isMovement(): boolean
+    - isDone(): boolean
+    - getActionPriority(): int
+    - iterateSprite(): void
+    - getCurrentTime(): int
+    - spawnProjectile(): void
+}
+
+class ActionProperties {
+    - spriteName: String
+    - gameCharName: String
+    '- hitBox: Effectbox
+    '- knockback: Vector
+    '- projectile: Projectile
+    - isProjectile: boolean
+    - isSelfInterruptible: boolean
+    - isEnemyInterruptible: boolean
+    - isMovement: boolean
+    - animationLoop: boolean
+    - totalFrames: int
+    - actionPriority: int
+    - duration: int
+    - animationLoopStartFrame: int
+    - hitBoxStartTime: int
+    - damage: int
+    
+    + ActionProperties(String spriteName, int actionPriority, int duration, boolean isSelfInterruptible,
+            boolean isEnemyInterruptible, int totalFrames, boolean animationLoop, int animationLoopStartFrame, boolean isMovement)
+    + ActionProperties(String spriteName, int actionPriority, int duration, boolean isSelfInterruptible, boolean isEnemyInterruptible, 
+            int totalFrames, boolean animationLoop, int animationLoopStartFrame, boolean isMovement, Vector knockBack)
+    + ActionProperties(String spriteName, int actionPriority, int duration, int hitBoxStartTime, boolean isSelfInterruptible,
+            boolean isEnemyInterruptible, int totalFrames, boolean animationLoop, int animationLoopStartFrame, boolean isMovement, Vector knockBack, Effectbox hitbox, int damage)
+    + ActionProperties(String spriteName, String gameCharName, int actionPriority, int duration, int hitBoxStartTime, boolean isSelfInterruptible, 
+            boolean isEnemyInterruptible, int totalFrames, boolean animationLoop, int animationLoopStartFrame, boolean isMovement, Vector knockBack, Effectbox hitbox, int damage, boolean isProjectile)
+    + ActionProperties(String spriteName, int duration, int totalFrames, boolean animationLoop, int animationLoopStartFrame, Vector knockBack, Effectbox hitbox, int damage)
+    + getHitBox(): Effectbox
+    + getKnockback(): Vector
+    + getHitBoxStartTime(): int
+    + getDamage(): int
+    + getSpriteName(): String
+    + getGameCharName(): String
+    + getActionPriority(): int
+    + getDuration(): int
+    + isSelfInterruptable(): boolean
+    + isEnemeyInterruptable(): boolean
+    + getTotalFrames(): int
+    + isAnimationnLoop(): boolean
+    + getAnimationLoopStartFrame(): int
+    + getIsProjectile(): boolean
+    + getIsMovement(): boolean
+    + getProjectile(): Projectile
+}
+
+class AnimationSpritePlayer {
+    - frameCounter: int
+    - currentFrame: int
+    - totalFrames: int
+    - animationLoopStartFrame: int
+    - holdFrame: int
+    - animationLoop: boolean
+    
+    + AnimationSpritePlayer(int totalFrames, boolean animationLoop, int animationLoopStartFrame, int holdFrame)
+    + getCurrentFrame(): int
+    - validInput(int input): boolean
+    + next(): void
+    - jump(int frame): void
+    - hasNext(): boolean
+}
+
+class EffectBox {
+    '- owner: WorldEntity
+    '- center: Point
+    - isTraversable: boolean
+    - posX: double
+    - posY: double
+    - offsetX: double
+    - offsetY: double
+    - width: int
+    - height: int
+    
+    + Effectbox(WorldEntity owner, Point center, boolean isTraversable, int width, int height)
+    + updatePos(): void
+    + EffectBoxInEffectBox(Effectbox otherBox): String
+    + updateCenter(Point center): void
+    + getIsTraversable(): boolean
+    + setIsTraversable(boolean state): void
+    + getWidth(): int
+    + getHeight(): int
+    + getPosX(): double
+    + getPosY(): double
+    + getPoint(): Point
+    + getOffsetX(): double
+    + getOffsetY(): double
+    + getOwner(): WorldEntity
+}
+
+class GameCharacter {
+    - weight: double
+    - speed: double
+    - damageModifier: double
+    - percentage: double
+    - startX: double
+    - startY: double
+    - idle: int 
+    - hitStun: int
+    - facingDirection: int
+    - appliedVector: int
+    - jumpCounter: int
+    - deathCounter: int
+    - playerNumb: int
+    '- actionHash: HashMap<Integer, ActionProperties>
+    - audioHash: HashMap<String, Media>
+    - availKeys: ArrayList<String>
+    - availKey: Predicate<String>
+    '- property: ActionProperties
+    '- hurtBox: Effectbox
+    '- mainVector: Vector
+    '- gravityVector: Vector
+    - playerAudioPlayer: MediaPlayer
+    - onGround: boolean
+    - onRight: boolean
+    - onLeft: boolean
+    - onTop: boolean
+    
+    + GameCharacter(PlayerProperties playerProperties, HashMap<String, Media> soundFX, ArrayList<Integer> pos, ArrayList<String> availKeys, int playerNumb, int facingDirection)
+    + GameCharacter(String name, ArrayList<Integer> pos, ArrayList<String> availKeys, int facingDirection)
+    + setCurrentAction(Integer actionNumber): void
+    + doAction(): void
+    + applyVectors(): void
+    + setPosition(double x, double y): void
+    + setOnGround(boolean onGround): void
+    + setOnTop(boolean onTop): void
+    + setOnLeft(boolean onLeft): void
+    + setOnRight(boolean onRight): void
+    + resetPercentage(): void
+    + addPercentage(int percentage): void
+    + resetAction(): void
+    + incrementDeathCounter(): void
+    + getAvailKeys(): ArrayList<String>
+    + getPredicate(): Predicate<String>
+    + getHurtBox(): Effectbox
+    + getAction(int actionNumber): Action
+    + getVector(): Vector
+    + getPercentage(): double
+    + getFacingDirection(): int
+    + getJumpCounter(): int
+    + getDeathCounter(): int
+    + getPlayerNumb(): int
+    + getStartX(): double
+    + getStartY(): double
+    - clearVectors(): void
+    - clearHorizontalVector(): void
+    - clearVerticalVector(): void
+    + getOnGround(): boolean
+}
+
+class PlayerProperties {
+    - characterName: String
+    - weight: double
+    - length: int
+    - width: int
+    - speed: double
+    '- actionP: ArrayList<ActionProperties>
+    
+    + PlayerProperties(String characterName, double weight, int length, int width, double speed, ArrayList<ActionProperties> actionP):
+    + getCharacterName(): String
+    + getWeight(): double
+    + getLength(): int
+    + getWidth(): int
+    + getSpeed(): double
+    + getActionProperties(): ArrayList<ActionProperties>
+}
+
+class Point {
+    - x: double
+    - y: double
+    + Point(double x, double y):
+    + Point(): 
+    + getX(): double
+    + getY(): double
+}
+
+class Projectile {
+    '- actionHash: HashMap<Integer, ActionProperties>
+    '- property: ActionProperties
+    '- hitBox: Effectbox
+    '- mainVector: Vector
+    - facingDirection: int
+    
+    +  Projectile(String name, ArrayList<Integer> pos, Vector knockback, Effectbox hitbox, int damage):
+    + setCurrentAction(Integer actionNumber): void
+    + doAction(): void
+    + Effectbox getHitBox(): void
+    + getFacingDirection() : integer
+}
+
+
+class Terrain {
+    '- hitBox: EffectBox
+    + Terrain(String name, ArrayList<Integer> pos, int width, int height):
+    + getHitBox(): Effectbox
+}
+
+class Vector {
+    - vx: double
+    - vy: double
+    - ax: double
+    - ay: double
+    - direction: int
+}
+
+class World {
+    - screensize: int[]
+    - idle: int
+    - hitStun: int
+    '- worldEntities: ArrayList<WorldEntity>
+    '- gameCharacters: ArrayList<GameCharacter>
+    - keysHeld: ArrayList<String>
+    - sides: ArrayList<String>
+    '- finishedProjectiles: ArrayList<Projectile>
+    '- collisionHash: HashMap<GameCharacter, HashMap<String, Boolean>>
+    '- clickActionHash: HashMap<GameCharacter, Boolean>
+    '- heldKeyHash: HashMap<GameCharacter, ArrayList<String>>
+    '- inputPerEntity: HashMap<GameCharacter, ArrayList<String>>
+    '- projectileReady: HashMap<GameCharacter, Projectile>
+    '- spawnProjectileHash: HashMap<GameCharacter, Boolean>
+    - newHeldKey: String
+    '- worldBox: Effectbox
+    - gameOver: boolean
+    - playerNumbWinner: int
+}
+
+class WorldEntity {
+    # id: int
+    '# hitBox: Effectbox
+    '# currentAction: Action
+    # name: String
+    '# point: Point
+}
+
+class MultiplayerGameController {
+    - worldCanvas: Canvas
+    - resumeButton: Button 
+    - exitButton: Button 
+    - textField: Text 
+    '- world: World
+    '- worldEntities: ArrayList<WorldEntity> 
+    - playerSprites: HashMap<String, Image> 
+    - assetSprites: HashMap<String, Image>
+    - worldAnimationTimer: AnimationTimer
+    - paused: boolean
+
+    + loadWorld(String character, String character2, String gameStage, String path): void
+    - loadPlayer(String character, ArrayList<Integer> position, ArrayList<String> availKeys, int playerNumb, int facingDirection): GameCharacter
+    - loadTerrain(String name, ArrayList<Integer> position, int width, int heigth): Terrain 
+    - updateWorld(): void
+    - gameOver(): void
+    - resumeGame(): void
+    - pauseGame(): void
+    - openCloseMenu(): void
+    - resetKeyInputs(): void
+    - handleKeyPressed(KeyEvent event): void
+    - handleKeyReleased(KeyEvent event): void
+    - handleExit(ActionEvent event): void
+    - handleResume(ActionEvent event): void
+    - loadSprite(String name, HashMap<String, Image> spriteHash): void
+    - loadAudio(String character, HashMap<String, Media> audioHash): void
+}
+
+class SingleplayerGameController {
+    - worldCanvas: Canvas
+    - resumeButton: Button 
+    - exitButton: Button 
+    - textField: Text 
+    '- world: World
+    '- worldEntities: ArrayList<WorldEntity> 
+    - playerSprites: HashMap<String, Image> 
+    - assetSprites: HashMap<String, Image>
+    - worldAnimationTimer: AnimationTimer
+    - paused: boolean
+
+    + loadWorld(String character, String gameStage, String path): void
+    - loadPlayer(String character, ArrayList<Integer> position, ArrayList<String> availKeys, int playerNumb, int facingDirection): GameCharacter
+    - loadTerrain(String name, ArrayList<Integer> position, int width, int heigth): Terrain 
+    - updateWorld(): void
+    - gameOver(): void
+    - resumeGame(): void
+    - pauseGame(): void
+    - openCloseMenu(): void
+    - resetKeyInputs(): void
+    - handleKeyPressed(KeyEvent event): void
+    - handleKeyReleased(KeyEvent event): void
+    - handleExit(ActionEvent event): void
+    - handleResume(ActionEvent event): void
+    - loadSprite(String name, HashMap<String, Image> spriteHash): void
+    - loadAudio(String character, HashMap<String, Media> audioHash): void
+}
+
+Action <-- "1" Vector
+Action <-- "2" EffectBox
+Action <-- "1" AnimationSpritePlayer
+Action <-- "1" Projectile
+
+ActionProperties <-- "1" EffectBox
+ActionProperties <-- "1" Vector
+ActionProperties <-- "1" Projectile
+
+EffectBox <-- "1" WorldEntity
+EffectBox <-- "1" Point
+
+GameCharacter <-- "*" ActionProperties
+GameCharacter <-- "1" EffectBox
+GameCharacter <-- "1" Vector
+GameCharacter <-- "1" Vector
+
+PlayerProperties <-- "*" ActionProperties
+
+Projectile <-- "*" ActionProperties
+Projectile <-- "1" Effectbox
+Projectile <-- "1" Vector
+
+Terrain <-- "1" EffectBox
+
+World <-- "*" WorldEntity
+World <-- "*" GameCharacter
+World <-- "*" Projectile
+World <-- "1" EffectBox
+
+WorldEntity <-- "1" EffectBox
+WorldEntity <-- "1" Action
+WorldEntity <-- "1" Point
+
+MultiplayerGameController <-- "*" WorldEntity
+MultiplayerGameController <-- "1" World
+
+SingleplayerGameController <-- "1" World
+SingleplayerGameController <-- "*" WorldEntity
+
+@enduml
