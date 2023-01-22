@@ -3,11 +3,9 @@
 
 ### _Made by: Sverre Nystad, Elin Haugum, Kristoffer Olaisen and Simon Sandvik Lee_
 ---
-
-[![NTNU FIGTHERZ](https://i.gyazo.com/132b0aa5d9a8b8f36b752e0eba1504f7.gif)](https://www.youtube.com/watch?v=3NE40v7QaqM)
+[![NTNU FIGTHERZ](https://media.discordapp.net/attachments/353907776633700363/1066749530286080080/132b0aa5d9a8b8f36b752e0eba1504f7.gif?width=823&height=454)](https://www.youtube.com/watch?v=3NE40v7QaqM)
 
 _Click on the GIF to watch the full game with sound._
-_If the image is not loading; https://www.youtube.com/watch?v=3NE40v7QaqM_
 
 ---
 ### About
