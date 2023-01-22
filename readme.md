@@ -3,7 +3,7 @@
 
 ### _Made by: Sverre Nystad, Elin Haugum, Kristoffer Olaisen and Simon Sandvik Lee_
 ---
-[![NTNU FIGTHERZ](https://cdn.discordapp.com/attachments/353907776633700363/1066749941092986941/a514142b0a4dfce57d06e2a9943e9441.gif)](https://www.youtube.com/watch?v=3NE40v7QaqM)
+[![NTNU FIGTHERZ](https://media.discordapp.net/attachments/353907776633700363/1066753378958442506/6ae495074a7c35656342107b2aa2c2af.gif?width=837&height=454)](https://www.youtube.com/watch?v=3NE40v7QaqM)
 
 _Click on the GIF to watch the full game with sound._
 
